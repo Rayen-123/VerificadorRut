@@ -1,0 +1,42 @@
+/* Estilos para la Galería de Imágenes */
+
+/* Contenedor principal para centrar la galería */
+.gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+}
+
+/* Estilos para cada imagen individual */
+.image-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    /* Sombras suaves para mejor estética (opcional) */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos de la imagen dentro del contenedor */
+.image-item img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    display: block; /* Elimina espacio extra debajo de las imágenes */
+}
+
+/* Estilos para el título principal */
+.gallery-title {
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+/* Estilos para el nombre del archivo */
+.image-name {
+    margin: 5px 0 0;
+    font-size: 12px;
+    color: #555;
+}
