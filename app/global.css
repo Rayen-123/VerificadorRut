@@ -88,8 +88,8 @@ body {
 
 /* Botón de agregar con estilo dashed */
 .btn-agregar-dash {
-    width: 120px !important;
-    height: 120px !important;
+    width: 200px !important;
+    height: 200px !important;
     border: 2px dashed #ccc !important;
     background: transparent !important;
     color: #666 !important;
