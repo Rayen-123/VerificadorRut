@@ -1,65 +1,58 @@
-// /app/page.js
-
-async function getDriveAssets() {
-    // Mantener la lógica de fetch para la ruta API de Supabase
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const apiUrl = `${baseUrl}/api/images`; 
-
-    try {
-        const res = await fetch(apiUrl, { 
-            next: { revalidate: 3600 } 
-        });
-
-        if (!res.ok) {
-            throw new Error(`Error ${res.status} al obtener datos de Supabase.`);
-        }
-        
-        const jsonResponse = await res.json();
-        
-        return jsonResponse.images || []; 
-        
-    } catch (error) {
-        console.error("Fallo al cargar assets de Supabase:", error);
-        return null;
-    }
-}
-
-// ==========================================================
-// 2. COMPONENTE PRINCIPAL (Usando Clases CSS)
-// ==========================================================
-export default async function ImageGalleryPage() {
-    
-    const imagesData = await getDriveAssets();
-
-    if (!imagesData || imagesData.length === 0) {
-        return (
-            <div className="error-message">
-                <h1>Error de Carga</h1>
-                <p>No se pudieron obtener imágenes. Verifica la consola y las variables de entorno de Supabase.</p>
-            </div>
-        );
-    }
-
-    // Mapear los datos de las imágenes a elementos <img> de HTML
-    const imageElements = imagesData.map((item, index) => (
-        <div key={item.id || index} className="image-item">
-            <img 
-                src={item.url} 
-                alt={item.name} 
-            />
-            <p className="image-name">{item.name}</p>
-        </div>
-    ));
-
-    return (
-        <div>
-            <h1 className="gallery-title">
-                Galería de Imágenes (Cargadas desde Supabase)
-            </h1>
-            
-            <div className="gallery-container">
-                {imageElements}
-            </div>
-        </div>
-    );
+"use client";
+import { Button, HStack } from "@chakra-ui/react"
+import { CloseButton, Drawer, Portal } from "@chakra-ui/react"
+export default function Page() {
+	return (
+		<>
+			<div className="barra-superior">
+        <Drawer.Root placement="start">
+          <Drawer.Trigger asChild>
+            <Button variant="plain" size="md" className="drawer">
+              ≡
+            </Button>
+          </Drawer.Trigger>
+          <Portal>
+            <Drawer.Backdrop />
+            <Drawer.Positioner>
+              <Drawer.Content>
+                <Drawer.Body>
+                  <HStack wrap="wrap" gap="6" className="botones-drawer-principal">
+                    <Button colorPalette="cyan" variant="subtle"> +Agregar </Button>
+                    <Button colorPalette="cyan" variant="subtle"> Mochila 1 </Button>
+                  </HStack>
+                </Drawer.Body>
+                <Drawer.CloseTrigger asChild>
+                  <CloseButton size="sm" />
+                </Drawer.CloseTrigger>
+              </Drawer.Content>
+            </Drawer.Positioner>
+          </Portal>
+        </Drawer.Root>   
+        <p className="titulo-app">preorganizate</p>
+        <div style={{ width: '80px' }}></div> 
+      </div>
+      <div className="contenido-principal">
+        <Drawer.Root placement="end">
+          <Drawer.Trigger asChild>
+            <HStack wrap="wrap" gap="6">
+              <Button colorPalette="cyan" variant="subtle"> +Agregar </Button>
+            </HStack>
+          </Drawer.Trigger>
+          <Portal>
+            <Drawer.Backdrop />
+            <Drawer.Positioner>
+              <Drawer.Content>
+                <Drawer.Body>
+                  {/*imagenes seleccionables para que el usuario pueda elegir una imagen para su mochila*/}
+                </Drawer.Body>
+                <Drawer.CloseTrigger asChild>
+                  <CloseButton size="sm" />
+                </Drawer.CloseTrigger>
+              </Drawer.Content>
+            </Drawer.Positioner>
+          </Portal>
+        </Drawer.Root>   
+      </div>
+		</>
+	)
 }
