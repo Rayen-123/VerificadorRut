@@ -46,7 +46,9 @@ export default function PaginaRut() {
                             type="text" 
                             className="inputRut"
                             value={inputRut}
-                            onChange={(e) => setInputRut(e.target.value)}/>
+                            onChange={(e) => setInputRut(e.target.value)}
+                            color="white"
+                            />
                           <Button bg="bg.subtle" variant="outline" onClick={manejarAceptar}>
                             Verificar RUT
                           </Button>

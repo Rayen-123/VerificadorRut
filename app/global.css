@@ -17,9 +17,11 @@ main {
     width: 100%;
     max-width: 400px;
 }
+
 .titulo-container {
     margin-bottom: 30px;
     text-align: center;
+    color: white;
 }
 
 .exito {
