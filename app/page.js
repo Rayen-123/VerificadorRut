@@ -1,133 +1,80 @@
 "use client";
-import { useState } from "react";
-import { Button, Input, SimpleGrid, Image, Box, Spinner, Stack, HStack, IconButton } from "@chakra-ui/react";
-import { CloseButton, Drawer, Portal } from "@chakra-ui/react";
-import { LuX } from "react-icons/lu";
-export default function Page() {
+import { useState } from 'react';
+import { Rut } from './lib/Rut';
+import { Button, Group, Input } from "@chakra-ui/react"
 
-  const [query, setQuery] = useState("");
-  const [resultados, setResultados] = useState([]);
-  const [seleccionadas, setSeleccionadas] = useState([]);
-  const [buscando, setBuscando] = useState(false);
+export default function PaginaRut() {
+    const [inputRut, setInputRut] = useState("");
+    const [mensaje, setMensaje] = useState("");
+    const [nombreClase, setNombreClase] = useState("vacio");
 
-  const buscarFotos = async () => {
-    if (!query) return;
-    setBuscando(true);
-    try {
-      const res = await fetch(`/api/pixabay?q=${query}`);
-      const data = await res.json();
-      setResultados(data);
-    } catch (err) {
-      console.error("Error en búsqueda");
-    } finally {
-      setBuscando(false);
-    }
-  };
+    const manejarAceptar = () => {
+        const textoIngresado = inputRut.trim();
 
-  const agregarImagen = (url) => {
-    setSeleccionadas([...seleccionadas, url]);
-    setResultados([]); 
-    setQuery("");      
-  };
+        if (textoIngresado !== "") {
+            try {
+                const objetoRut = new Rut(textoIngresado);
+                
+                if (objetoRut.esValido()) {
+                    setMensaje(`¡RUT Válido! -> ${objetoRut.toString()}`);
+                    setNombreClase("exito");
+                } else {
+                    setMensaje("Formato de RUT no reconocido");
+                    setNombreClase("error");
+                }
+            } catch (e) {
+                setMensaje("Hubo un error al procesar el RUT");
+                setNombreClase("error");
+            }
+        } else {
+            setMensaje("Por favor, ingresa un número");
+            setNombreClase("espera");
+        }
+    };
 
-  // Función para eliminar la imagen por su índice
-  const eliminarImagen = (indexAEliminar) => {
-    setSeleccionadas(seleccionadas.filter((_, index) => index !== indexAEliminar));
-  };
-  
-	return (
-		<>
-			<div className="barra-superior">
-        <Drawer.Root placement="start">
-          <Drawer.Trigger asChild>
-            <Button variant="plain" size="md" className="drawer">
-              ≡
-            </Button>
-          </Drawer.Trigger>
-          <Portal>
-            <Drawer.Backdrop />
-            <Drawer.Positioner>
-              <Drawer.Content>
-                <Drawer.Body>
-                  <HStack wrap="wrap" gap="6" className="botones-drawer-principal">
-                    <Button colorPalette="cyan" variant="subtle"> +Agregar </Button>
-                    <Button colorPalette="cyan" variant="subtle"> Mochila 1 </Button>
-                  </HStack>
-                </Drawer.Body>
-                <Drawer.CloseTrigger asChild>
-                  <CloseButton size="sm" />
-                </Drawer.CloseTrigger>
-              </Drawer.Content>
-            </Drawer.Positioner>
-          </Portal>
-        </Drawer.Root>   
-        <p className="titulo-app">preorganizate</p>
-        <div style={{ width: '40px' }}></div> 
-      </div>
-      <div className="contenido-principal">
-      <div className="galeria-fotos">
-        
-        {/* Imágenes seleccionadas */}
-        {seleccionadas.map((url, i) => (
-          <Box key={i} className="foto-item">
-            <Image src={url} alt="Elegida" />
-            
-            <IconButton
-              aria-label="Eliminar"
-              onClick={() => eliminarImagen(i)}
-              className="btn-eliminar"
-            >
-              <LuX size={10} /> {/* Icono más pequeño */}
-            </IconButton>
-          </Box>
-        ))}
+    return (
+    <main className="main-container">
+            <div className='principal'>
+                <div className="titulo-container">
+                    <h1 className="titulo">VERIFICADOR DE RUT</h1>
+                </div>
 
-        {/* Botón de Agregar (Drawer) */}
-        <Drawer.Root placement="end" size="md">
-          <Drawer.Trigger asChild>
-            <Button className="btn-agregar-dash">
-              + Agregar
-            </Button>
-          </Drawer.Trigger>
-          <Portal>
-            <Drawer.Backdrop />
-            <Drawer.Positioner>
-              <Drawer.Content>
-                <Drawer.Header>Buscador Pixabay</Drawer.Header>
-                <Drawer.Body>
-                  <Stack gap="4">
-                    <HStack>
-                      <Input 
-                        placeholder="Buscar..." 
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && buscarFotos()}
-                      />
-                      <Button onClick={buscarFotos} colorPalette="cyan">Buscar</Button>
-                    </HStack>
+                <div>                    
+                    <div className="input-container">
+                        <Group attached w="full" maxW="sm">
+                          <Input flex="1" placeholder="Ej: 12.345.678-K"
+                            type="text" 
+                            className="inputRut"
+                            value={inputRut}
+                            onChange={(e) => setInputRut(e.target.value)}/>
+                          <Button bg="bg.subtle" variant="outline" onClick={manejarAceptar}>
+                            Verificar RUT
+                          </Button>
+                        </Group>
+                    </div>
 
-                    {buscando ? <Spinner /> : (
-                      <SimpleGrid columns={2} gap="2">
-                        {resultados.map((url, index) => (
-                          <Box 
-                            key={index} 
-                            cursor="pointer"
-                            onClick={() => agregarImagen(url)}
-                          >
-                            <Image src={url} borderRadius="md" />
-                          </Box>
-                        ))}
-                      </SimpleGrid>
+                    {/* Caja de resultado dinámica */}
+                    {mensaje && (
+                        <div className={`mensaje-base ${nombreClase}`}>
+                            {mensaje}
+                        </div>
                     )}
-                  </Stack>
-                </Drawer.Body>
-                <Drawer.CloseTrigger asChild><CloseButton /></Drawer.CloseTrigger>
-              </Drawer.Content>
-            </Drawer.Positioner>
-          </Portal>
-        </Drawer.Root>
-      </div>
-    </div>
-		</>
-	)
+
+                    {/* Formatos (La parte gris que tenías abajo) */}
+                    <div className="formatos">
+                        <p>Formatos aceptados</p>
+                        <div>
+                            <span className="formatosRut">12345678</span>
+                            <span className="formatosRut">12345678-9</span>
+                            <span className="formatosRut">12.345.678-K</span>
+                            <span className="formatosRut">y más...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p className="firma">
+                Verificador de digito verificador del rut - © 2026 - Rayen Aburto
+            </p>
+        </main>
+    );
 }

@@ -1,99 +1,56 @@
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: white;
+    background-color: black;
 }
-.barra-superior {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    background-color: blanchedalmond;
-    color: black;
-    display: flex;
-    align-items: center; 
-    justify-content: space-between;
-    padding: 0 10px;
-}
-
-.barra-superior p {
-    margin: 0; 
-    flex-grow: 1;
-    text-align: center;
-    font-weight: bold;
-}
-
-.drawer {
-    width: 30px;
-    padding: 2px 10px;
-    font-size: 20px;
-    cursor: pointer;
-    color: black;
-}
-.botones-drawer-principal {
-    margin-top: 30px;
-    width: 30px;
-}
-
-.contenido-principal {
-    margin-top: 40px;
-    padding: 20px;
-}
-
-.contenido-principal button {
-    padding: 40px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin: 10px;
-}
-
-/* Contenedor de la galería */
-.galeria-fotos {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: flex-start;
-}
-
-/* Contenedor individual de cada foto */
-.foto-item {
-    position: relative;
-    width: 200px; /* Reducido un poco para mejor estética */
-    height: 200px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.foto-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-/* Botón eliminar ultra pequeño */
-.btn-eliminar {
-    position: absolute !important;
-    top: -5px;
-    right: -5px;
-    min-width: 18px !important; /* Muy pequeño */
-    height: 18px !important;
-    padding: 0 !important;
-    border-radius: 50% !important;
-    background-color: #e53e3e !important;
-    color: white !important;
-    z-index: 10;
-}
-
-/* Botón de agregar con estilo dashed */
-.btn-agregar-dash {
-    width: 200px !important;
-    height: 200px !important;
-    border: 2px dashed #ccc !important;
-    background: transparent !important;
-    color: #666 !important;
+main {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    font-size: 12px !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.principal {
+    background-color: #222222c4;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+.titulo-container {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.exito {
+  color: #229e51;            
+}
+
+.error {  
+  color: #991b1b;            
+}
+
+.espera {  
+  color: #1e40af;            
+}
+
+.formatos {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #444;
+    color: #aaa;
+    font-size: 12px;
+    text-align: center;
+}
+
+
+.formatosRut {
+    padding: 5px 10px;
+}
+
+.firma {
+    margin-top: 30px;
+    font-size: 12px;
+    color: #555;
+    text-align: center;
 }
